@@ -1,0 +1,24 @@
+#poke-collection{
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.poke-info{
+    position: relative;
+    padding: 1rem;
+    box-shadow: 0 0 5px rgb(202, 202, 202);
+    margin: 15px;
+    text-align: center;
+}
+
+.btn{
+    border: none;
+    background-color: red;
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 0;
+    left: 10px;
+}
