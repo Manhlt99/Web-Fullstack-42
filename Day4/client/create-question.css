@@ -1,12 +1,25 @@
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+h2{
+    font-weight: 500;
+    font-size: 1.9rem;
 }
 
 .formQuestion{
     width: 100%;
-    padding: 10px;
-    margin: 30px 0;
+    height: 150px;
+    padding: 7px;
+    margin-top: 12px;
     display: block;
+    outline: none;
+    border: 1px solid #dbdbdb;
+    border-radius: 5px;
+}
+
+.formQuestion:focus{
+    border: 1px solid  #337ab7;
+}
+
+.count-text{
+    color: #777;
+    font-size: 0.9rem;
+    margin-bottom: 10px;
 }

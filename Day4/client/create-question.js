@@ -9,17 +9,30 @@ form.addEventListener("submit", (event) => {
     const content = textArea.value;
 
     //Step 3: Gửi dữ liệu lên server
-    $.ajax({
-        url: 'http://localhost:8080/create-question',
-        type: 'POST',
-        data: {
-            content: content,
-        },
-        success: (res) => {
-            console.log(res);
-        },
-        error: (res) => {
-            console.log(err);
-        }
-    })
+    if (content !== "") {
+        $.ajax({
+            url: 'http://localhost:8080/create-question',
+            type: 'POST',
+            data: {
+                content: content,
+            },
+            success: (res) => {
+                if (res.success) {
+                    const idQuestion = res.data.id;
+                    window.location.href = 'http://localhost:8080/question/' + idQuestion;
+                }
+            },
+            error: (res) => {
+                console.log(err);
+            }
+        })
+    }
+})
+
+textArea.addEventListener('input', () => {
+    const content = textArea.value;
+    const reactCharacterLength = 200 - content.length;
+
+    const restSpan = document.getElementById('rest');
+    restSpan.innerHTML = reactCharacterLength
 })
