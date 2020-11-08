@@ -1,0 +1,26 @@
+.container {
+  text-align: center;
+}
+
+.voteBtn {
+  margin: 100px 0;
+  display: flex;
+  justify-content: space-around;
+}
+
+.voteBtn #noBtn {
+  background-color: #d9534f;
+}
+.voteBtn #noBtn:hover {
+  background-color: #b9342f;
+}
+
+.btnFunction button {
+  background-color: transparent;
+  color: #333;
+  border: 1px solid #dbdbdd;
+}
+
+.btnFunction button:hover {
+  background-color: #e6e6e6;
+}

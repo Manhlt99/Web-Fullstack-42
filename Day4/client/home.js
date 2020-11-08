@@ -28,16 +28,29 @@ otherQuestionBtn.addEventListener('click', () => {
     getRandomQuestion();
 })
 
-document.getElementById('noBtn').addEventListener('click', () => {
-    // gọi lên server 1 request
+
+const sendRequestVote = (type) => {
     $.ajax({
-        url: `http://localhost:8080/vote-question/${idQuestion}/no`,
+        url: `http://localhost:8080/vote-question/${idQuestion}/${type}`,
         method: 'GET',
         success: (req, res) => {
             console.log(res);
+            window.location.href = `http://localhost:8080/question/${idQuestion}`        
         }
     })
+}
+
+document.getElementById('noBtn').addEventListener('click', () => {
+    // gọi lên server 1 request
+    sendRequestVote('no');
 })
+
+document.getElementById('yesBtn').addEventListener('click', () => {
+    // gọi lên server 1 request
+    sendRequestVote('yes');
+})
+
+
 
 
 
