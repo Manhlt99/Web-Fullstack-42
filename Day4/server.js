@@ -9,10 +9,8 @@ const { connect } = require('http2');
 
 // Kết nối mongoDB server
 mongoose.connect("mongodb://localhost:27017/quyetde", (err) => {
-    (err) => {
         if(err) throw err;
         console.log('Connect mongodb successfully');
-    }
 })
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -22,6 +20,11 @@ app.use(express.static('client'))
 
 app.get('/', (req, res) => {
     const pathFile = path.resolve(__dirname, './client/Home.html')
+    res.sendFile(pathFile)
+})
+
+app.get('/search', (req, res) => {
+    const pathFile = path.resolve(__dirname, './client/search.html')
     res.sendFile(pathFile)
 })
 
@@ -165,15 +168,25 @@ app.get('/detail-question/:id', async (req, res) => {
 app.get('/vote-question/:idQuestion/:voteType', async(req, res) => {
     const {idQuestion, voteType } = req.params;
 
-    const question = await QuestionModel.findById(idQuestion);
+    // const question = await QuestionModel.findById(idQuestion);
 
-    if(question){
-        question[`${voteType}Count`]++;
-        await question.save();
-        return res.send({success: 1, data: question});
-    }
-    return res.send({success: 0});
-
+    // if(question){
+    //     question[`${voteType}Count`]++;
+    //     await question.save();
+    //     return res.send({success: 1, data: question});
+    // }
+    // return res.send({success: 0});
+    const voteTypeKey = `${voteType}Count`
+    const question = await QuestionModel.findByIdAndUpdate(
+            idQuestion, 
+            {
+                $inc: {[voteTypeKey]: 1}
+            },
+            {
+                new: true
+            }
+        );
+        return res.send({success: 1, data: question})
 
     // fs.readFile('data.json', (err, data) => {
     //     if (err) return res.send({ success: 0 })
@@ -201,6 +214,14 @@ app.get('/vote-question/:idQuestion/:voteType', async(req, res) => {
     //     return res.send({ success: 1, data: foundQuestion });
     // });
 });
+
+app.get('/search-question', async (req, res) => {
+    const { keyword } = req.query;
+    const newRegex = new RegExp(keyword, 'i');
+    const questions = await QuestionModel.find({content: {$regex: newRegex}});
+
+    return res.send({success: 1, data: questions})
+})
 
 app.listen(8080, (err) => {
     if (err) throw err;
